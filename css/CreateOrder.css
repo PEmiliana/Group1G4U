@@ -1,0 +1,104 @@
+#productInfo{
+    font-size: 2vw;
+}
+#menuButton{
+    margin-bottom: 2vw;
+}
+#productBox{
+    border-bottom: 4px solid black;
+}
+
+.toggleVisibility{
+     display: none !important;
+}
+
+.background{
+    position: absolute;
+    width:  inherit;
+    height: inherit;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+legend{
+    text-align: left;
+  } 
+
+  input{ border: 1px solid !important; }
+  td:first-child{ width: 100px !important; }
+
+.spinner-border {
+    position: absolute;
+    left: 41%;
+    width: 17vw !important;
+    height: 17vw !important;
+    border-radius: 50% !important;
+    border-top: 16px solid rgb(255, 255, 255) !important;
+    border-bottom: 16px solid rgb(255, 255, 255) !important;
+    border-left: 16px solid rgb(255, 255, 255) !important;
+}
+  
+
+.orderBox{
+    margin-top: 2vw !important;
+    border-top: 4px solid black;
+    border-bottom: 4px solid black;
+    box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
+    -webkit-box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
+    -o-box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
+    -ms-box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
+    position:relative;
+}
+
+.formDetails{
+    font-size: 2.5vw;
+    border: 2px solid black;
+    padding: 4px;
+    margin-bottom: 5%;
+}
+
+.availableStock{
+    font-size: 2.5vw;
+}
+
+
+.pictureOfProduct{
+    height: 20vw !important;
+    width: 30vw !important;
+}
+
+#productImage{
+    height: 20vw !important;
+    width: 30vw !important;
+}
+
+@media screen and (max-width: 992px){
+    .productName{
+        font-size: 3.5vw;
+    }
+    .availableStock{
+        font-size: 3.5vw;
+    }
+    #productInfo{
+        font-size: 3.5vw;
+    }
+}
+#formDetails{
+    font-size: 2.5vw;
+    border: 2px solid black;
+    padding: 4px;
+    margin-bottom: 5%;
+
+}
+/* #formDetailsBox{
+    margin-left: -18px;
+} */
+
+#createOrder{
+    height: 100%;
+    width: 100%;
+}
+
+.input{
+    width: 100%;
+}

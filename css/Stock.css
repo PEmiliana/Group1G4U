@@ -1,0 +1,74 @@
+#productInfo{
+    font-size: 2vw;
+}
+
+#productBox{
+    border-bottom: 4px solid black;
+    
+}
+
+.productName{
+    font-size: 2.5vw;
+
+}
+
+.availableStock{
+    font-size: 2.5vw;
+
+}
+
+#productImage{
+    height: 20vw;
+    width: 30vw;
+}
+
+@media screen and (max-width: 992px){
+    #productName{
+        font-size: 4vw !important;
+    }
+    .availableStock{
+        font-size: 3.5vw;
+    }
+    #productInfo{
+        font-size: 3.5vw;
+    }
+}
+
+.break{
+    margin-bottom: -1rem;
+}
+
+.productContainer{
+    box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
+    -webkit-box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
+    -o-box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
+    -ms-box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
+}
+
+
+.post-item{
+    margin-bottom: 1rem;
+    box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
+    -webkit-box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
+    -o-box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
+    -ms-box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
+}
+
+.post-item:hover{
+    background: rgba(255, 255, 255, 1);
+    transform: scale(1.1);
+    transition: 0.5s;
+    box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 1);
+    -moz-box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 1);
+    -webkit-box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 1);
+    -o-box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 1);
+    -ms-box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 1);
+    cursor: pointer;
+}
+
+#productName{
+    font-size: 3.2vw;
+    color: rgb(255, 187, 0);
+}

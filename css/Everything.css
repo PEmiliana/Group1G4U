@@ -1,0 +1,14 @@
+body{
+    width: 96%;
+}
+
+#currentPage {
+    font-weight: bold;
+}
+
+@media screen and (max-width: 800px) {
+    #currentPage {
+      font-size: 5vw;
+      
+    }
+  }
