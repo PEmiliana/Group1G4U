@@ -5,7 +5,7 @@
 $host = 'localhost';
 $db = 'g4udatabase';
 $admin = 'root';
-$password = 'pasw0rdmysql';
+$password = '';
 $charset = 'utf8mb4';
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
 $options = [
