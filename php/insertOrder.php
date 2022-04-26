@@ -6,7 +6,7 @@ include "../Functions/redirect.php";
 session_start();
 if (isset($_POST['submit_row'])) {
     $user_data = check_login($pdo);
-    $product = $_POST['product']; // Do this for the rest of the stuff tomorrow
+    $product = $_POST['product'];
     $subtotal = $_POST['subtotal'];
     $quantity = $_POST['quantity'];
     $supplierProductID = $_POST['supplierProductID'];
