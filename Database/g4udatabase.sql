@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 16, 2022 at 05:50 PM
+-- Generation Time: Apr 19, 2022 at 11:57 PM
 -- Server version: 5.7.17
 -- PHP Version: 5.6.30
 
@@ -48,9 +48,33 @@ CREATE TABLE `order` (
 --
 
 INSERT INTO `order` (`orderID`, `staffID`, `orderDate`, `receiveDate`, `authoriserStaffID1`, `authoriserStaffID2`, `state`, `orderType`, `authoriser1AuthTime`, `authoriser2AuthTime`, `authoriser1Status`, `authoriser2Status`) VALUES
-(1, 'BRE510', '2022-03-16 11:52:39', NULL, 'GRE056', NULL, 'Pending', 'Singular', '2022-03-16 16:52:20', NULL, 'Approved', 'Awaiting Approval'),
-(2, 'GRE056', '2022-03-16 14:41:55', NULL, 'GRE056', NULL, 'Pending', 'Singular', '2022-03-16 17:43:42', NULL, 'Awaiting Approval', 'Awaiting Approval'),
-(3, 'GRE056', '2022-03-16 14:44:40', NULL, 'GRE056', NULL, 'Pending', 'Singular', '2022-03-16 17:46:26', NULL, 'Denied', 'Awaiting Approval');
+(1, 'BRE510', '2022-03-16 11:52:39', NULL, 'GRE056', 'SYSTEM', 'Declined', 'Singular', '2022-03-16 16:52:20', '2022-04-04 19:28:32', 'Denied', 'Approved'),
+(2, 'GRE056', '2022-03-16 14:41:55', NULL, 'GRE056', 'SYSTEM', 'Pending', 'Singular', '2022-03-16 17:43:42', '2022-04-04 19:27:58', 'Approved', 'Approved'),
+(3, 'GRE056', '2022-02-16 14:44:40', NULL, 'GRE056', 'SYSTEM', 'Declined', 'Singular', '2022-03-16 17:46:26', '2022-04-04 20:26:35', 'Denied', 'Approved'),
+(6, 'SYSTEM', '2022-03-23 00:00:00', NULL, NULL, NULL, 'Pending', 'Singular', NULL, NULL, 'Awaiting Approval', 'Awaiting Approval'),
+(7, 'SYSTEM', '2022-03-23 00:00:00', NULL, NULL, NULL, 'Pending', 'Singular', NULL, NULL, 'Awaiting Approval', 'Awaiting Approval'),
+(8, 'SYSTEM', '2022-03-23 00:00:00', NULL, NULL, NULL, 'Pending', 'Singular', NULL, NULL, 'Awaiting Approval', 'Awaiting Approval'),
+(9, 'SYSTEM', '2022-03-23 00:00:00', NULL, NULL, NULL, 'Pending', 'Singular', NULL, NULL, 'Awaiting Approval', 'Awaiting Approval'),
+(10, 'GRE056', '2022-04-04 13:03:59', NULL, 'GRE056', 'SYSTEM', 'Pending', 'Singular', '2022-04-04 13:04:12', '2022-04-04 18:50:04', 'Approved', 'Approved'),
+(11, 'MAH042', '2022-04-05 16:51:45', NULL, NULL, NULL, 'Pending', 'Singular', NULL, NULL, 'Awaiting Approval', 'Awaiting Approval');
+
+--
+-- Triggers `order`
+--
+DELIMITER $$
+CREATE TRIGGER `changed authorisation status` BEFORE UPDATE ON `order` FOR EACH ROW BEGIN
+
+IF (NEW.`authoriser2Status` = 'Denied' OR NEW.`authoriser1Status` = 'Denied') THEN
+SET NEW.state := "Declined";
+ELSEIF (NEW.`authoriser2Status` = 'Approved' AND NEW.`authoriser1Status` = 			'Approved') THEN
+SET NEW.state := "Approved";
+END IF;
+
+
+
+ END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -66,26 +90,71 @@ CREATE TABLE `product` (
   `stock` int(11) NOT NULL,
   `minimumOrderAmount` int(11) NOT NULL,
   `stockToReorderAt` int(11) NOT NULL,
-  `imageDirectory` varchar(100) NOT NULL
+  `imageDirectory` varchar(100) NOT NULL,
+  `orderPlacedBySystem` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `product`
 --
 
-INSERT INTO `product` (`productID`, `productType`, `productName`, `productDescription`, `stock`, `minimumOrderAmount`, `stockToReorderAt`, `imageDirectory`) VALUES
-('FP59', 'Toys', 'Funko Pop! Disney: Frozen 2 - Olaf', 'A olaf funko pop form the disney film Frozen 2', 300, 100, 200, 'olaf_funko_pop.jpg'),
-('KST01', 'Toys', 'KLIKBOT Studio Thud', 'A klikbot that you can play with', 400, 200, 100, 'kilkbot_studio_thud.jpg'),
-('LEX95', 'Toys', 'LEGO Classic Bricks and Ideas - 11001', 'A lego brick set', 400, 200, 200, 'lego_11001.jpg'),
-('NRF10', 'Toys', 'Nerf N-Strike Elite Disruptor', 'A nerf gun', 400, 200, 100, 'nerf_disruptor.jpg'),
-('PIN00', 'Toys', 'Plan Toys Pinball', 'A pinball machine you can play with', 200, 100, 50, 'pinball.jpg'),
-('POL03', 'Gadgets', 'Polaroid Play 3D Pen', 'A polaroid 3D pen', 500, 500, 200, 'polaroid pen.jpg'),
-('PPF03', 'Gadgets', 'Portable Personal Fan', 'A personal fan to cool you down', 500, 500, 200, 'portable fan.jpg'),
-('PWR41', 'Gadgets', 'USB Power Bank 10000mAh', 'A USB power bank', 500, 500, 200, 'PWR41.jpg'),
-('PWR43', 'Gadgets', 'USB Power Bank 20000mAh', 'A USB Power bank', 500, 500, 200, 'PWR43.jpg'),
-('PWR44', 'Gadgets', 'USB Power Bank 25800mAh', 'A USB Power bank', 500, 500, 200, 'PWR44.jpg'),
-('SC01', 'Gadgets', 'Spider Catcher', 'A gadget used to catch spiders', 500, 500, 200, 'SC01.jpg'),
-('SW08', 'Gadgets', 'Star Wars USB Cup Warmer BB-8', 'A star wars cup warmer styled in the shape of BB-8', 500, 500, 200, 'SW08.jpg');
+INSERT INTO `product` (`productID`, `productType`, `productName`, `productDescription`, `stock`, `minimumOrderAmount`, `stockToReorderAt`, `imageDirectory`, `orderPlacedBySystem`) VALUES
+('FP59', 'Toys', 'Funko Pop! Disney: Frozen 2 - Olaf', 'An Olaf funko pop from the Disney film Frozen 2.', 50000, 100, 200, 'olaf_funko_pop.jpg', 0),
+('KST01', 'Toys', 'KLIKBOT Studio Thud', 'A klikbot studio thud toy designed to be suitable for all age groups.', 400, 200, 100, 'kilkbot_studio_thud.jpg', 0),
+('LEX95', 'Toys', 'LEGO Classic Bricks and Ideas - 11001', 'Lego brick set - LEGO Classic Bricks and Ideas 11001', 400, 200, 200, 'lego_11001.jpg', 0),
+('NRF10', 'Toys', 'Nerf N-Strike Elite Disruptor', 'The Nerf N-Strike Elite disruptor from the new series', 400, 200, 100, 'nerf_disruptor.jpg', 0),
+('PIN00', 'Toys', 'Plan Toys Pinball', 'The plan toys pinball is a pinball machine you can play with on the go.', 200, 100, 50, 'pinball.jpg', 0),
+('POL03', 'Gadgets', 'Polaroid Play 3D Pen', 'A polaroid 3D pen', 500, 500, 200, 'polaroid pen.jpg', 0),
+('PPF03', 'Gadgets', 'Portable Personal Fan', 'A personal, portable fan useful for warm summer days.', 500, 500, 200, 'portable fan.jpg', 0),
+('PWR41', 'Gadgets', 'USB Power Bank 10000mAh', 'A USB power bank -10000mAh', 3000, 500, 200, 'USB Power Bank 10000mAh.jpg', 0),
+('PWR43', 'Gadgets', 'USB Power Bank 20000mAh', 'A USB Power bank - 20000mAh', 500, 500, 200, 'USB Power Bank 10000mAh.jpg', 0),
+('PWR44', 'Gadgets', 'USB Power Bank 25800mAh', 'A USB Power bank - 25800mAh', 500, 500, 200, 'USB Power Bank 10000mAh.jpg', 0),
+('SC01', 'Gadgets', 'Spider Catcher', 'The perfect tool to keep the spiders away from you without harming them.', 500, 500, 200, 'spider catcher.jpg', 0),
+('SW08', 'Gadgets', 'Star Wars USB Cup Warmer BB-8', 'A star wars cup warmer styled in the shape of BB-8', 500, 500, 200, 'bb8 star wars.jpg', 0);
+
+--
+-- Triggers `product`
+--
+DELIMITER $$
+CREATE TRIGGER `Allow System to make order after stock exceeds min stock` BEFORE UPDATE ON `product` FOR EACH ROW BEGIN
+
+IF(NEW.stock >= NEW.stockToReorderAt) THEN
+    SET NEW.orderPlacedBySystem=0;
+END IF;
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `Auto create order when stock < minimumStock` AFTER UPDATE ON `product` FOR EACH ROW BEGIN
+
+SET @numberOfLowStockProducts = (Select count(productID) from `product` WHERE product.stock <= product.stockToReorderAt AND product.orderPlacedBySystem=0);
+
+IF(@numberOfLowStockProducts >0) THEN
+
+SET @productID = (Select productID from `product` WHERE product.stock <= product.stockToReorderAt AND product.orderPlacedBySystem=0 LIMIT 1);
+
+SET @todayDate = CURDATE();
+
+SET @minOrderAmt = (Select minimumOrderAmount from `product` WHERE product.productID = @productID);
+
+SET @supplierProductID = (SELECT supplierProductID from `supplierproduct` WHERE supplierproduct.productID = @productID ORDER BY `supplierproduct`.deliveryTimeInWorkingDays ASC LIMIT 1);
+
+INSERT INTO `order`(staffID,orderDate,state)
+VALUES('SYSTEM',@todayDate,'Pending');
+
+SET @LastInsertedPrimKey = (SELECT LAST_INSERT_ID());
+
+SET @individualPrice = (SELECT price from supplierproduct WHERE supplierproduct.supplierProductID = @supplierProductID);
+
+SET @priceSubTotal = CAST((@individualPrice * @minOrderAmt) AS DECIMAL(16,2));
+
+INSERT INTO `productorder` (`orderID`,`productID`,`quantity`,`priceOnPurchase`,`supplierProductID`) VALUES(@LastInsertedPrimKey, @productID, @minOrderAmt,@priceSubTotal,@supplierProductID);
+END IF;
+
+
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -110,7 +179,15 @@ INSERT INTO `productorder` (`productOrderID`, `orderID`, `productID`, `quantity`
 (1, 1, 'LEX95', 500, '3840.00', 24),
 (2, 2, 'LEX95', 200, '1600.00', 25),
 (3, 3, 'LEX95', 200, '1536.00', 24),
-(4, 3, 'FP59', 123, '922.50', 22);
+(4, 3, 'FP59', 123, '922.50', 22),
+(5, 5, 'FP59', 100, '7.50', 22),
+(6, 6, 'FP59', 100, '7.50', 22),
+(7, 7, 'FP59', 100, '7.50', 22),
+(8, 8, 'PWR41', 500, '9.95', 1),
+(9, 9, 'PWR41', 500, '4975.00', 1),
+(10, 10, 'FP59', 100, '750.00', 22),
+(11, 10, 'FP59', 100, '750.00', 22),
+(12, 11, 'FP59', 100, '750.00', 22);
 
 -- --------------------------------------------------------
 
@@ -143,7 +220,7 @@ CREATE TABLE `staff` (
   `firstName` varchar(50) NOT NULL,
   `lastName` varchar(50) NOT NULL,
   `jobTitle` varchar(75) NOT NULL,
-  `authoriseOrderPrivilege` tinyint(4) NOT NULL,
+  `viewOrderPrivilege` tinyint(1) NOT NULL DEFAULT '0',
   `password` varchar(100) NOT NULL,
   `managingUserPermsAuthorisation` tinyint(1) NOT NULL DEFAULT '0',
   `orderAuthPermission` tinyint(1) NOT NULL DEFAULT '0'
@@ -153,16 +230,17 @@ CREATE TABLE `staff` (
 -- Dumping data for table `staff`
 --
 
-INSERT INTO `staff` (`staffID`, `title`, `firstName`, `lastName`, `jobTitle`, `authoriseOrderPrivilege`, `password`, `managingUserPermsAuthorisation`, `orderAuthPermission`) VALUES
+INSERT INTO `staff` (`staffID`, `title`, `firstName`, `lastName`, `jobTitle`, `viewOrderPrivilege`, `password`, `managingUserPermsAuthorisation`, `orderAuthPermission`) VALUES
 ('BRE510', 'Mr', 'Jason', 'Brentwood', 'Senior SalesPerson GT', 0, '123', 0, 0),
 ('DUN021', 'Ms', 'Sarah', 'Dunkley', 'CEO PG4U', 1, '123', 0, 0),
-('GRE056', 'Ms', 'Ann', 'Greengold', 'Assistant QA Controller ACC Dept', 1, '123', 0, 1),
-('GRE123', 'Miss', 'Jennifer', 'Green', 'Sales Assistant GT', 0, '123', 0, 0),
-('HID001', 'Sir', 'Adrian', 'Hidcote-Armstrong', 'MID & Chairman of G4U Board', 1, '123', 0, 0),
+('GRE056', 'Ms', 'Ann', 'Greengold', 'Assistant QA Controller ACC Dept', 1, '123', 1, 1),
+('GRE123', 'Miss', 'Jennifer', 'Green', 'Sales Assistant GT', 1, '123', 0, 1),
+('HID001', 'Sir', 'Adrian', 'Hidcote-Armstrong', 'MID & Chairman of G4U Board', 1, '123', 1, 1),
 ('MAH042', 'Mr', 'Mustafa', 'Mahmood', 'Sales Assistant GT', 0, '123', 0, 0),
-('PAT201', 'Ms', 'Amanda', 'Patel', 'Sales Assistant GT', 0, '123', 0, 0),
+('PAT201', 'Ms', 'Amanda', 'Patel', 'Sales Assistant GT', 1, '123', 0, 0),
 ('PIA412', 'Mr', 'Enrico', 'Piam', 'Sales Assistant GT', 0, '123', 0, 0),
 ('PIT101', 'Mr', 'Derek', 'Pitts', 'Sales Assistant GT', 0, '123', 0, 0),
+('SYSTEM', 'Mr', 'Gadgets', '4U', 'G4U System AI', 1, '123', 1, 1),
 ('VER121', 'Mr', 'John', 'Vermont', 'Mgr PG4U GT Dept.', 1, '123', 0, 0);
 
 -- --------------------------------------------------------
@@ -299,12 +377,12 @@ ALTER TABLE `supplierproduct`
 -- AUTO_INCREMENT for table `order`
 --
 ALTER TABLE `order`
-  MODIFY `orderID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `orderID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT for table `productorder`
 --
 ALTER TABLE `productorder`
-  MODIFY `productOrderID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `productOrderID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT for table `supplierproduct`
 --
